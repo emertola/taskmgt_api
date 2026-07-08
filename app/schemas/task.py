@@ -6,3 +6,13 @@ class Task(BaseModel):
     title: str
     description: Optional[str] = None
     completed: bool = False
+
+class TaskCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+
+class TaskResponse(BaseModel):
+    id: int
+    title: str
+    description: Optional[str] = None
+    completed: bool
