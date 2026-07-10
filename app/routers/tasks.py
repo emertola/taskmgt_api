@@ -1,14 +1,18 @@
-from fastapi import APIRouter
+from typing import Annotated
 
-from app.schemas.task import TaskCreate
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from app.db.session import get_db
+from app.schemas.task import TaskCreate, TaskResponse
 from app.services.task_service import (create_task, get_all_tasks)
 
 router = APIRouter()
 
-@router.post("/tasks")
-def add_task(task: TaskCreate):
-    return create_task(task)
+@router.post("/task", response_model=TaskResponse, status_code=201)
+def add_task(task: TaskCreate, db: Annotated[Session, Depends(get_db)]):
+    return create_task(db, task)
 
-@router.get("/tasks")
-def get_tasks():
-    return get_all_tasks()
+@router.get("/tasks", response_model=list[TaskResponse])
+def get_tasks(db: Annotated[Session, Depends(get_db)]):
+    return get_all_tasks(db)
