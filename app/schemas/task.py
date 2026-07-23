@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
@@ -17,3 +19,4 @@ class TaskResponse(BaseModel):
     title: str
     description: Optional[str] = None
     completed: bool
+    created_at: datetime

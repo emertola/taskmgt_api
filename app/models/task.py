@@ -1,5 +1,6 @@
-from sqlalchemy import Boolean, Integer, Text
+from sqlalchemy import Boolean, DateTime, Integer, Text, false, func
 from sqlalchemy.orm import Mapped, mapped_column
+from datetime import datetime
 
 from app.db.base import Base
 
@@ -26,5 +27,12 @@ class Task(Base):
     completed: Mapped[bool] = mapped_column(
         Boolean,
         default=False,
+        server_default=false(),
+        nullable=False,
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
         nullable=False,
     )
