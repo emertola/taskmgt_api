@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.routers.tasks import router as tasks_router
+from app.routers.users import router as users_router
 from app.core.config import settings
 import app.models #noqa: F401
 
@@ -9,4 +10,5 @@ app = FastAPI(
 )
 
 app.include_router(tasks_router)
+app.include_router(users_router)
 
