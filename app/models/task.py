@@ -1,8 +1,15 @@
-from sqlalchemy import Boolean, DateTime, Integer, Text, false, func
-from sqlalchemy.orm import Mapped, mapped_column
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, Text, false, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 
 from app.db.base import Base
+
+if TYPE_CHECKING:
+    from app.models.user import User
 
 
 class Task(Base):
@@ -36,3 +43,12 @@ class Task(Base):
         server_default=func.now(),
         nullable=False,
     )
+
+    owner_id: Mapped[int | None] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        index=True,
+        nullable=True,
+    )
+
+    owner: Mapped[User | None] = relationship(
+        back_populates="tasks")

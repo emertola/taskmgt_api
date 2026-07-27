@@ -20,3 +20,4 @@ class TaskResponse(BaseModel):
     description: Optional[str] = None
     completed: bool
     created_at: datetime
+    owner_id: int | None = None
